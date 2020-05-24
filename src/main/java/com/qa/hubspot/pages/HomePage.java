@@ -24,6 +24,12 @@ public class HomePage extends BasePage  {
 	//@FindBy(id="nav-secondary-contacts")
 	//WebElement secondContactsBtn;
 	
+	@FindBy(id="nav-primary-sales-branch")
+	WebElement salesBtn;
+	
+	//@FindBy(id="	nav-secondary-documents")
+    //WebElement documentBtn;
+	
 	public HomePage(WebDriver driver)
 	{
 		this.driver=driver;
@@ -45,5 +51,12 @@ public ContactsPage gotoContactPage() throws InterruptedException
 	Thread.sleep(8000);
 	secondContactsBtn.click();
 	return new ContactsPage(driver);
+}
+
+public SalesPage  gotoSalesPage() throws InterruptedException{
+	salesBtn.click();
+	Thread.sleep(8000);
+	//documentBtn.click();
+	return new SalesPage(driver);
 }
 }

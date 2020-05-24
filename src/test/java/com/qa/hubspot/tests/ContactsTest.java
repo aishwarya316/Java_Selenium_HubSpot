@@ -1,8 +1,11 @@
 package com.qa.hubspot.tests;
 
+import static org.testng.Assert.assertEquals;
+
 import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -23,8 +26,7 @@ public class ContactsTest
 	HomePage homepage;
 	ContactsPage contactspage;
 	@BeforeMethod
-	public void setUp() throws InterruptedException {
-
+	public void setUp() throws InterruptedException  {
 		basePage = new BasePage();
 		prop = basePage.initialize_Properties();
 		driver = basePage.initialize_driver(prop);
@@ -34,7 +36,7 @@ public class ContactsTest
 		homepage = loginPage.doLogin(prop.getProperty("username"), prop.getProperty("password"));
 		Thread.sleep(10000);
 		contactspage=homepage.gotoContactPage();
-		
+		Thread.sleep(10000);
 	}
 	@DataProvider(name = "getContactsData")
 	public Object[][] getContactsTestData() {
@@ -42,11 +44,17 @@ public class ContactsTest
 		return contactsData;
 	}
 
-	@Test(dataProvider = "getContactsData")
-	public void createContactsTest(String email, String firstName, String lastName, String jobTitle) {
+	@Test(dataProvider = "getContactsData",priority=1,enabled=true)
+	public void createContactsTest(String email, String firstName, String lastName, String jobTitle) throws InterruptedException  {
 		contactspage.createnewContacts(email, firstName, lastName, jobTitle);
+		Assert.assertEquals( driver.getTitle(), "Contacts");
 	}
-
+@Test(priority=2,enabled=false)
+public void deleteContactsTest() throws InterruptedException
+{
+	contactspage.deleteContacts();
+	
+}
 
 @AfterMethod
 public void tearDown() {
